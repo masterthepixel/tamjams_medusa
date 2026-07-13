@@ -69,6 +69,15 @@ Each default-exports `async ({ container })`, is auto-discovered, and runs **onc
 2. **`catalog-seed.ts`** — the 21-variant catalog above. Idempotent: returns early if product handle `tamjams-jar` exists. Also creates/reuses stock location "TamJams Warehouse", links inventory levels, and batches per-flavor variant images. Hardcodes `SALES_CHANNEL_ID = "sc_01KXCSZGBHJ9HXPEHKQYBCCXG1"` (see IDs table).
 3. **`shipping-seed.ts`** — fulfillment set "TamJams US Delivery", US service zone, flat-rate "Standard Shipping" **$5.00** (manual provider `manual_manual`). Idempotent on any existing shipping option. **Throws "Run the catalog seed first." if the default shipping profile is missing** — so catalog-seed must run before shipping-seed.
 
+#### Seeding cookbook (how to change the catalog)
+
+`catalog-seed.ts` is the worked example for all product seeding. To change the live catalog:
+
+- **New flavor**: add a `FlavorSpec` to `FLAVORS` in `catalog-seed.ts` (copy an existing entry; source copy from `docs/prd/product-data.json`). But note the seed **won't re-run** — it's tracked in `script_migrations` AND returns early because `tamjams-jar` exists. For an already-seeded DB, write a NEW migration-script (e.g. `add-<flavor>-flavor.ts`) that adds the option value + 3 variants + prices + inventory to the existing product via `updateProductsWorkflow`/variant-create workflows — idempotent, guarded by a variant-SKU existence check. Load the `building-with-medusa_medusa` skill first.
+- **Price change**: don't edit the seed for a live DB — update prices via Admin UI or a new migration-script using the pricing workflows. Decimal dollars, always.
+- **Fresh database** (new env/branch): just run `pnpm exec medusa db:migrate` — schema + all three seeds run in order automatically.
+- **Rules that always apply**: idempotent (safe to re-run), deterministic SKUs `TJ-<FLAVOR>-<SIZE>`, prices in decimal dollars, wire to sales channel `sc_01KXCSZGBHJ9HXPEHKQYBCCXG1`, inventory at "TamJams Warehouse", image path `/images/products/<handle>.jpg`.
+
 ### The configurator (storefront)
 
 The one custom interactive surface. Route `/[countryCode]/shop/[config]`, static via `generateStaticParams` (every region country × 21 variants; `try/catch → []` on failure).
@@ -131,6 +140,8 @@ This repo was built by — and should continue to be extended through — a **si
 **Pipeline order** (`docs/prd/README.md`): `medusa-backend` → `catalog-seeder` → `storefront-builder` (+`ui-components`) → `checkout-integrator` → `qa-reviewer` after each stage. Model split rationale: haiku = cheap/well-specified/parallelizable; sonnet = reasoning-heavy; bump to opus per-task by editing the `model:` field.
 
 **Installed skills** (`skills-lock.json`, hash-pinned from `supabase/agent-skills`): `supabase` (any Supabase/DB/Auth/RLS/migration task) and `supabase-postgres-best-practices` (Postgres perf guide). `.agents/skills/` holds the real files; `.claude/skills/` are symlinks into them (how Claude Code discovers them).
+
+**Global Medusa skills** (installed at `~/.claude/skills/` on this machine, available in every session here): `building-with-medusa_medusa` (REQUIRED before any backend work — architecture patterns, the decimal-price rule), `building-storefronts_medusa` (REQUIRED before storefront work — SDK/data-layer patterns), `db-generate_medusa` / `db-migrate_medusa` (migrations), `building-admin-dashboard-customizations_medusa` (admin UI), `creating-internal-agents_medusa`. Load the matching skill before touching its territory; the subagent prompts that built this repo did.
 
 **Supabase MCP** (`.mcp.json`): one http server `supabase`, project_ref `hymffpkuzcttrwjftgym` (the live TamJams DB). Needs `claude /mcp` auth per machine.
 
