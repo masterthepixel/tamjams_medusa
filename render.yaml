@@ -33,9 +33,13 @@ services:
     branch: main
     rootDir: apps/medusa       # monorepo path (create-medusa-app layout)
     # Medusa v2 `build` emits a standalone app in .medusa/server that needs its own install.
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build && cd .medusa/server && pnpm install
+    # `.medusa/server` sits inside the pnpm workspace, so a bare `pnpm install`
+    # there resolves to a workspace install and never links the standalone
+    # server's own deps (the `medusa` bin). --ignore-workspace fixes that.
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build && cd .medusa/server && pnpm install --ignore-workspace
     # Free tier can't use preDeployCommand, so migrations run at boot (before start).
-    startCommand: cd .medusa/server && pnpm medusa db:migrate && pnpm medusa start
+    # `pnpm exec`/`pnpm run` resolve the medusa bin from the server's node_modules.
+    startCommand: cd .medusa/server && pnpm exec medusa db:migrate && pnpm run start
     healthCheckPath: /health
     autoDeploy: true
     envVars:
