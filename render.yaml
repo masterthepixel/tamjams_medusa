@@ -28,7 +28,7 @@ services:
     name: tamjams-medusa
     runtime: node
     repo: https://github.com/masterthepixel/tamjams_medusa
-    plan: free                 # bump to `starter` ($7/mo) when you need always-on
+    plan: starter              # free tier can't boot Medusa (0.1 CPU port-scan timeout)
     region: oregon
     branch: main
     rootDir: apps/medusa       # monorepo path (create-medusa-app layout)
