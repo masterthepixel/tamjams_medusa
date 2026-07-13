@@ -4,7 +4,7 @@
 
 When working in this repo, adopt the **TamJams Product Engineering Steward** — you own the codebase and the running services end to end. This file is the single onboarding document: it carries the operational knowledge (live URLs, service IDs, deploy mechanics, credential state) that exists nowhere else in the repo. Read it before touching backend TS, deploying either side, or changing anything that money or the live catalog depends on. `CLAUDE.md` should point here.
 
-TamJams is a **young project** (13 commits of total history, one product live, no real customers yet). The steward's job right now is to keep the thin system honest, ship it toward a real launch, and not lose the hard-won operational lessons that each cost a failed deploy.
+TamJams is a **young project** (one product live, a 192-test suite, no real customers yet). The steward's job right now is to keep the thin system honest, ship it toward a real launch, and not lose the hard-won operational lessons that each cost a failed deploy.
 
 ## Product
 
@@ -20,14 +20,19 @@ pnpm workspace, `packages: ["apps/*"]` (`pnpm-workspace.yaml`). Root `package.js
 
 ```
 apps/
-  medusa/       # Medusa 2.17.2 backend + Admin UI (@dtc/backend)
-  storefront/   # Next.js App Router storefront (Medusa starter, rebranded)
+  medusa/       # Medusa 2.17.2 backend + Admin UI (@dtc/backend); tests in
+                #   src/migration-scripts/__tests__/ + integration-tests/
+  storefront/   # Next.js App Router storefront (Medusa starter, rebranded);
+                #   Vitest suite in src/**/__tests__/
+e2e/            # Playwright suite — orchestrates both servers on the LOCAL DB
 docs/prd/       # agent specs, PRD, catalog source data, superseded blueprints
+docs/TESTING.md # the four test layers: commands, coverage, landmines
 render.yaml     # Render service shape (documentation only — see Deploy ops)
 docker-compose.yml
 skills-lock.json
 .mcp.json       # project-scoped Supabase MCP
 .claude/agents/ # 6 subagent personas (the pipeline that built this repo)
+.github/workflows/test.yml  # CI: storefront + backend suites on push/PR
 ```
 
 ### Live topology (as of 2026-07-13, $7/mo total)
@@ -188,8 +193,7 @@ Honest inventory of everything currently wrong, stale, or unfinished. None are b
 - Starter-generic leftovers still live: `medusa-cta` "Powered by Medusa & Next.js", unchanged starter `/store` `/products` `/collections` `/categories` pages, starter `opengraph-image.jpg`/`twitter-image.jpg`, unused home components `featured-products/` `product-rail/`.
 
 **Docs / data drift**
-- `render.yaml` header comments still describe the **free/$0** plan — stale vs the actual `plan: starter` line.
-- `docs/prd/README.md` says **"5–6 flavors"** — actual catalog is **7**.
+- ~~`render.yaml` header free/$0 comments~~ and ~~PRD "5–6 flavors"~~ — **fixed 2026-07-14**.
 - `docs/prd/product-data.json` uses bare SKUs `SMALL`/`MEDIUM`/`LARGE`; the **seeder's `TJ-<FLAVOR>-<SIZE>` is authoritative** for real SKUs. `product-data.json` is catalog source copy, not the SKU source of truth.
 - `docs/prd/render_1.yaml` is the **superseded** original full-stack-on-Render blueprint (Render Postgres + 2 services, `preDeployCommand` migrations, no `--ignore-workspace`). Kept for history — do not use.
 
@@ -261,4 +265,4 @@ vercel deploy --prod
 
 ---
 
-**Last verified: 2026-07-13.** Live IDs, URLs, plan tiers, and env-var state were verified against the running Vercel/Render/Supabase services on that date. Code `file:line` references are from the researcher pass of the same day; re-check against the tree if a file has since moved.
+**Last verified: 2026-07-13** (live IDs, URLs, plan tiers, env-var state — against the running Vercel/Render/Supabase services) and **2026-07-14** (test suite: all 192 tests executed green; testing-section facts come from those runs). Code `file:line` references are from the researcher pass; re-check against the tree if a file has since moved.

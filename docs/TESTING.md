@@ -1,54 +1,65 @@
-# TamJams Testing Plan
+# TamJams Testing
 
-Four layers, smallest-fastest to largest-slowest. **Hard safety rule: no test layer ever touches the Supabase production DB** — `apps/medusa/.env`'s `DATABASE_URL` points at production, so every test runner is forced onto the local Docker Postgres (`postgres://tamjams:tamjams@localhost:5432/…`) or a throwaway DB it creates itself.
+Four layers, smallest-fastest to largest-slowest. **192 tests, all green as of 2026-07-14.**
 
-## Layer 1 — Backend unit (Jest, exists in starter)
+**Hard safety rule: no test layer ever touches the Supabase production DB.** `apps/medusa/.env`'s `DATABASE_URL` points at production, so every runner is forced onto the local Docker Postgres and guarded: `apps/medusa/integration-tests/setup.js` hard-throws on any non-local DB host; `e2e/setup/backend.mjs` refuses a non-local `DATABASE_URL`. Do not weaken these guards.
 
-`apps/medusa`, `pnpm test:unit` (`TEST_TYPE=unit`). Targets the deterministic logic inside the migration-scripts (SKU generation, image paths, flavor/size tables, idempotency-guard predicates) via named exports added to the script files — **no behavior changes, no file renames** (renames would re-trigger run-once tracking).
+Prereq for layers 2 and 4: local Docker Postgres up (`docker compose up -d` at repo root; user/pass `tamjams`, port 5432). Node 22 in every shell (`eval "$(fnm env)" && fnm use 22`).
 
-## Layer 2 — Backend integration (Jest + @medusajs/test-utils, exists in starter)
+## Layer 1 — Backend unit (Jest) — 17 tests, ~1s
 
-`apps/medusa`, `pnpm test:integration:http` / `test:integration:modules` (`medusaIntegrationTestRunner` boots a real Medusa against a throwaway Postgres it creates on the local Docker instance). The highest-value backend layer:
+```bash
+cd apps/medusa && pnpm test:unit
+```
 
-- Store API: `tamjams-jar` product exists, 21 variants, correct decimal-dollar prices (14.89/22.89/33.89), publishable-key scoping (no key → 401/400).
-- Region/sales-channel wiring: US region, usd, `pp_system_default`.
-- Cart lifecycle: create → add variant by SKU → update qty → shipping option ("Standard Shipping" $5) → complete with manual provider → order exists with correct totals.
-- Seed idempotency: run seeds twice → identical counts (1 product, 21 variants, 21 prices, 21 inventory levels, 1 shipping option).
+`src/migration-scripts/__tests__/` — the deterministic seed logic via named exports on the script files: `skuFor` (`TJ-<FLAVOR>-<SIZE>`, all 21 combos unique), `imageUrlFor`, exactly 7 flavors with unique codes/handles, price table 14.89/22.89/33.89 ascending by oz, decimal-dollar guards (≤2 decimals, <100) on every price and the $5 shipping rate, `BRAND_STORY` prepended to every description.
 
-## Layer 3 — Storefront unit + component (Vitest + Testing Library, new)
+## Layer 2 — Backend integration (Jest + @medusajs/test-utils) — 5 tests, ~10s
 
-`apps/storefront`, `pnpm test` (jsdom). No network, no backend.
+```bash
+cd apps/medusa && pnpm test:integration:http
+```
 
-- **Unit — `src/lib/util/tamjams.ts` exhaustively**: `parseConfig` (valid, dashed slugs like `sour-cherry-18oz`, invalid shapes, missing-oz, digits edge cases), `buildConfig` round-trips, `slugifyFlavor`, `resolveVariant` (metadata match, option-value fallbacks, miss → undefined), `flavorsFromProduct` (dedup, catalog order), `sizesFromProduct` (oz ascending), `isVariantInStock` matrix (manage_inventory × allow_backorder × quantity).
-- **Component (RTL)**: `option-radio-group` (radiogroup semantics, roving tabindex, arrow-key wrap, Space/Enter select, disabled options unselectable), `sticky-buy-bar` (visible/hidden aria + tabIndex), `nutrition-facts` (renders provided data), `product-image` (error → placeholder fallback, reset on src change), `flavor-card` (name/price/link).
+`integration-tests/http/store-flows.spec.ts`. `medusaIntegrationTestRunner` boots a real Medusa per suite on a **throwaway DB** it creates on the local instance (via the `pg-god` devDep — the starter omitted it; don't remove it). The runner does **not** run `src/migration-scripts`, so the suite invokes the seed exports directly in `beforeAll` (pre-creating the hardcoded sales channel + shipping profile a fresh DB lacks).
 
-## Layer 4 — E2E (Playwright, new `e2e/` workspace package)
+Covers: `tamjams-jar` with 21 variants at decimal-dollar prices and `TJ-*` SKUs; publishable-key scoping (no key → 400/401); US/usd region; full cart lifecycle (add → qty 2 → $29.78 → "Standard Shipping" $5 → manual payment → complete → order at $34.78); seed idempotency (second run of catalog+shipping seeds changes no counts — `initial-data-seed` is deliberately excluded: it's non-idempotent by design, second `createRegionsWorkflow` for `us` throws).
 
-Full local stack: backend on Docker Postgres (freshly migrated+seeded, NOT Supabase) + storefront against it. Scenarios:
+## Layer 3 — Storefront unit + component (Vitest + Testing Library) — 161 tests, ~2s
 
-1. Home renders 7 flavor cards with prices from the API.
-2. Flavor card → correct `/us/shop/<slug>-8oz` page (title, price).
-3. Configurator: size change updates price + URL without reload; flavor change updates image/copy.
-4. Browser back restores the previous configuration.
-5. Keyboard-only option selection (arrow keys) works.
-6. Add to Bag → nav cart count increments; cart page shows line item; qty edit updates totals.
-7. Checkout: guest email + address → shipping shows "Standard Shipping $5.00" → manual payment step reachable.
-8. Invalid config (`/us/shop/not-a-jam-99oz`) → 404.
-9. Sold-out state renders when a variant is out of stock (via API-manipulated inventory, if practical).
+```bash
+cd apps/storefront && pnpm test        # or test:watch
+```
 
-## Type gate (stretch)
+Config: `vitest.config.ts` (jsdom, tsconfig paths), `vitest.setup.ts` (jest-dom). Fixtures model the real 21-variant catalog (`src/lib/util/__tests__/fixtures.ts`).
 
-The storefront currently has **no** type gate (`ignoreBuildErrors: true`). If a scoped `tsc` run over TamJams-authored files only can pass cleanly (starter files have React-19 false positives), add it as `pnpm typecheck`; otherwise document why not.
+- `src/lib/util/__tests__/tamjams.test.ts` (106): `parseConfig` (all 21 real configs + 11 invalid shapes), `buildConfig` round-trips, `slugifyFlavor` (all 7), `resolveVariant` (metadata match, option-value fallback, miss), `flavorsFromProduct`/`sizesFromProduct` ordering+dedup, full `isVariantInStock` matrix.
+- Component `__tests__/` beside each component: `option-radio-group` (WAI-ARIA radiogroup, roving tabindex, arrow-key wrap, Space/Enter, disabled), `sticky-buy-bar` (aria-hidden/tabindex states), `nutrition-facts`, `product-image` (error → placeholder, reset on src change), `flavor-card` (localized `/shop/<slug>-<oz>oz` href).
+
+## Layer 4 — E2E (Playwright) — 9 scenarios, ~40s warm
+
+```bash
+cd e2e && pnpm test                    # test:headed / report also available
+```
+
+Playwright's `webServer` orchestrates both servers itself (see `e2e/README.md`): backend forced onto the local Docker PG (migrate + seeds, env-override beats `.env`), storefront started with the **local** publishable key read from the local DB. `setup/fixups.mjs` pre-creates what the hardcoded-ID seeds assume (additive/idempotent only).
+
+Scenarios: home 7-flavor grid with prices · card → shop page ($14.89) · size change updates price+URL without reload · **browser back restores prior config** (caught a real `router.replace` bug on first run; fixed to `router.push`) · keyboard-only radiogroup selection · Add to Bag → cart count/line item/qty totals · guest checkout to the manual-payment step (no order placed) · invalid config → 404 · sold-out state via psql inventory manipulation (restored after).
 
 ## CI
 
-GitHub Actions: job 1 = storefront unit/component (no services); job 2 = backend unit + integration (Postgres service container); E2E stays local/on-demand initially (needs full stack + browsers).
+`.github/workflows/test.yml`: on push/PR — `storefront-unit` job (Layer 3) + `backend` job (Layers 1–2, Postgres 16 service container). E2E is local/on-demand (needs the two-server stack + browsers).
 
-## Ownership map (parallel implementation, disjoint territories)
+## Test-infra landmines (each cost debugging time)
 
-| Territory | Agent | Files |
-|---|---|---|
-| `apps/medusa` tests | A | jest config touch-ups, `src/**/__tests__/`, `integration-tests/` |
-| `apps/storefront` tests | B | `vitest.config.ts`, `src/**/__tests__/` |
-| `e2e/` package | C | everything under `e2e/` |
-| Shared deps/lockfile, CI, docs | orchestrator | one setup commit before agents run; CI + persona updates after |
+- `pg-god` is required by the integration runner and missing from the stock starter.
+- `jest.config.js` referenced `integration-tests/setup.js` that never existed — jest was broken from scaffold until 2026-07-14.
+- Seeds hardcode the production sales-channel id → fresh DBs need it pre-created.
+- `inventory_level.raw_stocked_quantity` (jsonb) is authoritative; SQL touching only `stocked_quantity` is invisible to Medusa.
+- Publishable keys with >1 sales channel 400 on `+variants.inventory_quantity`.
+- Next dev persists `force-cache` product fetches on disk across restarts (`.next/cache/fetch-cache` — E2E clears it).
+
+## Open
+
+- **Storefront type gate** (planned stretch, not done): `next.config.js` still sets `ignoreBuildErrors`/`ignoreDuringBuilds`, and repo-wide `tsc --noEmit` has React-19 false positives in starter files. A scoped tsconfig over TamJams-authored files is the likely shape.
+- E2E in CI (needs the stack in a runner).
+- `resolveVariant`'s size-option fallback is dead weight against seeded data ("Small/Medium/Large" → `parseInt` NaN); works only via `metadata.size_oz`.

@@ -18,7 +18,7 @@ Drop these into `.claude/agents/` at the root of the TamJams repo (create the fo
 ## Typical build flow
 
 1. `medusa-backend` — stand up Medusa, define the product model, region, sales channel, Stripe, publishable key.
-2. `catalog-seeder` — seed the 5–6 flavors × sizes once the model exists.
+2. `catalog-seeder` — seed the 7 flavors × 3 sizes once the model exists.
 3. `storefront-builder` — build home + configurator pages against the Store API, delegating repetitive UI to `ui-components`.
 4. `checkout-integrator` — wire cart + Stripe checkout once items can be added to a cart.
 5. `qa-reviewer` — run after each of the above before marking work done.

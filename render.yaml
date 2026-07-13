@@ -5,9 +5,13 @@
 # Render. This blueprint intentionally does NOT provision Postgres or a storefront
 # service on Render — those live elsewhere and provisioning them here would cost more.
 #
-# Cost: $0/month on the `free` plan below. Free web services spin down after ~15min
-# idle and kill background jobs — fine for early dev/prototyping. Bump `plan` to
-# `starter` ($7/mo) once you need it always-on (real checkout traffic, cron jobs).
+# Cost: $7/month (`starter`). Do NOT downgrade to `free`: 0.1 CPU hits Render's
+# port-scan timeout before Medusa v2 can bind a port — it cannot boot at all
+# (verified 2026-07-13, three failed deploys).
+#
+# NOTE: nothing consumes this file automatically anymore — the Blueprint was
+# deleted (public-repo flow had no webhooks and blocked plan changes). This file
+# documents the service shape; changes are applied via the Render API/dashboard.
 #
 # Redis/Key Value is intentionally omitted: Medusa v2 falls back to an in-memory
 # event bus + workflow engine on a single instance. Add Upstash (or Render Key Value)
