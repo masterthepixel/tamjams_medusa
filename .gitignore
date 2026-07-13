@@ -141,3 +141,13 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# monorepo
+node_modules/
+.next/
+.medusa/
+.turbo/
+*.tsbuildinfo
+.env
+.env.local
+docs/.DS_Store
