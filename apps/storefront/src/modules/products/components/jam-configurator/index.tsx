@@ -30,9 +30,10 @@ type JamConfiguratorProps = {
 /**
  * Single interactive island for the shop configurator. The URL segment
  * (`<flavor>-<oz>oz`) is the source of truth: selecting an option performs a
- * shallow `router.replace`, the server re-renders with the new params, and this
+ * shallow `router.push`, the server re-renders with the new params, and this
  * component receives the new `flavorSlug`/`oz` props. No selection state is
- * duplicated client-side, so the browser back button restores prior configs.
+ * duplicated client-side. `push` (not `replace`) so each selection is a
+ * history entry and the browser back button restores prior configs.
  */
 const JamConfigurator: React.FC<JamConfiguratorProps> = ({
   product,
@@ -69,7 +70,7 @@ const JamConfigurator: React.FC<JamConfiguratorProps> = ({
   const navigate = (nextFlavor: string, nextOz: number) => {
     const config = buildConfig(nextFlavor, nextOz)
     startTransition(() => {
-      router.replace(`/${countryCode}/shop/${config}`, { scroll: false })
+      router.push(`/${countryCode}/shop/${config}`, { scroll: false })
     })
   }
 

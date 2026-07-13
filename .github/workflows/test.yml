@@ -1,0 +1,67 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  storefront-unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @dtc/storefront test
+
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: tamjams
+          POSTGRES_PASSWORD: tamjams
+          POSTGRES_DB: tamjams
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @dtc/backend test:unit
+      - run: pnpm --filter @dtc/backend test:integration:http
+        env:
+          # test-utils creates throwaway DBs on this instance; exact var names
+          # verified against the integration setup in apps/medusa.
+          DB_HOST: localhost
+          DB_PORT: "5432"
+          DB_USERNAME: tamjams
+          DB_PASSWORD: tamjams
+          DATABASE_URL: postgres://tamjams:tamjams@localhost:5432/tamjams
+          JWT_SECRET: test
+          COOKIE_SECRET: test
+          STORE_CORS: http://localhost:8000
+          ADMIN_CORS: http://localhost:9000
+          AUTH_CORS: http://localhost:9000
+
+# E2E (Playwright) runs locally / on-demand for now — it needs the full
+# two-server stack; see docs/TESTING.md Layer 4 and e2e/README.md.

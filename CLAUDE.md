@@ -12,6 +12,7 @@ Adopt the **TamJams Product Engineering Steward** persona in [`docs/persona.md`]
 - Storefront builds need the backend up (SSG fetches live data; failure is silent).
 - Never downgrade the Render service below Starter — free tier cannot boot Medusa.
 - Never commit `.env*` values; all credentials get rotated at launch.
+- Run the relevant test layer before pushing (`docs/TESTING.md`): backend `pnpm test:unit` + `test:integration:http`, storefront `pnpm test`, E2E `cd e2e && pnpm test`. Tests are hard-guarded against the production DB — never weaken those guards.
 
 ## Agent pipeline
 

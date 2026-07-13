@@ -8,7 +8,7 @@ import {
 } from "@medusajs/medusa/core-flows";
 import { batchVariantImagesWorkflow } from "@medusajs/medusa/core-flows";
 
-const SALES_CHANNEL_ID = "sc_01KXCSZGBHJ9HXPEHKQYBCCXG1";
+export const SALES_CHANNEL_ID = "sc_01KXCSZGBHJ9HXPEHKQYBCCXG1";
 const CURRENCY_CODE = "usd";
 const PRODUCT_HANDLE = "tamjams-jar";
 const STOCK_LOCATION_NAME = "TamJams Warehouse";
@@ -36,7 +36,7 @@ interface NutritionFacts {
   };
 }
 
-interface FlavorSpec {
+export interface FlavorSpec {
   code: string;
   name: string;
   handle: string;
@@ -63,10 +63,10 @@ const SHARED_NUTRITION: NutritionFacts = {
 
 const SHARED_HIGHLIGHTS = ["Real Fruit", "Non-GMO", "Homemade", "No Additives"];
 
-const BRAND_STORY =
+export const BRAND_STORY =
   "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\n";
 
-const FLAVORS: FlavorSpec[] = [
+export const FLAVORS: FlavorSpec[] = [
   {
     code: "APRICOT",
     name: "Apricot",
@@ -167,7 +167,7 @@ const FLAVORS: FlavorSpec[] = [
   },
 ];
 
-interface SizeSpec {
+export interface SizeSpec {
   code: "SMALL" | "MEDIUM" | "LARGE";
   title: string;
   ounces: number;
@@ -176,17 +176,17 @@ interface SizeSpec {
   inventoryQty: number;
 }
 
-const SIZES: SizeSpec[] = [
+export const SIZES: SizeSpec[] = [
   { code: "SMALL", title: "Small", ounces: 8, grams: 227, priceUsd: 14.89, inventoryQty: 100 },
   { code: "MEDIUM", title: "Medium", ounces: 12, grams: 340, priceUsd: 22.89, inventoryQty: 100 },
   { code: "LARGE", title: "Large", ounces: 18, grams: 510, priceUsd: 33.89, inventoryQty: 100 },
 ];
 
-function skuFor(flavor: FlavorSpec, size: SizeSpec): string {
+export function skuFor(flavor: FlavorSpec, size: SizeSpec): string {
   return `TJ-${flavor.code}-${size.code}`;
 }
 
-function imageUrlFor(flavor: FlavorSpec): string {
+export function imageUrlFor(flavor: FlavorSpec): string {
   return `${IMAGE_BASE_PATH}/${flavor.handle}.jpg`;
 }
 

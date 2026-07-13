@@ -154,6 +154,28 @@ This repo was built by — and should continue to be extended through — a **si
 - **Secrets/env hygiene:** `.gitignore` blanket-ignores `.env`/`.env.*` and un-ignores only `!.env.example`/`!.env.template`. Real envs (`apps/medusa/.env`, storefront `.env.local`, root `.env.local` with the Render key) are never committed. Do not commit secrets.
 - **Rotate ALL credentials at launch** (user's explicit plan) — the Supabase DB password was shared in-session and reused local + Render. See launch checklist.
 - Follow the user's coding conventions: no comments unless the WHY is non-obvious, edit-over-create, validate only at boundaries, short responses, `file:line` refs.
+- **Tests never touch production.** Every test layer is forced onto the local Docker Postgres: backend integration via `integration-tests/setup.js` (hard-throws on any non-local DB host), E2E via `e2e/setup/backend.mjs` (refuses non-local `DATABASE_URL`, spawned-process env beats `.env`). Do not weaken these guards.
+
+## Testing
+
+Four layers (full plan: `docs/TESTING.md`). Run before any push that touches the relevant app:
+
+| Layer | Where | Command | Notes |
+|---|---|---|---|
+| Backend unit (17) | `apps/medusa` | `pnpm test:unit` | seed logic: SKUs, prices, flavors, decimal-dollar guard |
+| Backend integration (5) | `apps/medusa` | `pnpm test:integration:http` | boots real Medusa on a throwaway local DB (`pg-god`); Store API, key scoping, full cart→order, seed idempotency |
+| Storefront unit+component (161) | `apps/storefront` | `pnpm test` | Vitest/jsdom; `tamjams.ts` exhaustive + a11y component tests |
+| E2E (9 scenarios) | `e2e/` | `pnpm test` | Playwright orchestrates both servers on the LOCAL DB (`e2e/README.md`); needs Docker PG up |
+
+CI (`.github/workflows/test.yml`): storefront unit + backend unit/integration on push/PR (Postgres service container). E2E is local/on-demand.
+
+Hard-won test-infra facts (each cost debugging time):
+- `@medusajs/test-utils` needs the `pg-god` devDep (creates/drops throwaway DBs) — the starter omitted it; don't remove it.
+- The integration runner does NOT run `src/migration-scripts` — suites invoke the seed exports directly via the container.
+- **Seeds hardcode the production sales-channel id** (`sc_01KX…`), so a truly fresh DB needs that channel pre-created (E2E's `setup/fixups.mjs` does this) — a portability wart worth fixing eventually.
+- `inventory_level.raw_stocked_quantity` (jsonb) is authoritative — SQL that updates only `stocked_quantity` is invisible to Medusa.
+- Publishable keys must have exactly ONE sales channel or `+variants.inventory_quantity` queries 400.
+- Next dev persists `force-cache` product fetches on disk across restarts — E2E clears `.next/cache/fetch-cache` at startup.
 
 ## Known gaps & discrepancies register
 
@@ -174,6 +196,8 @@ Honest inventory of everything currently wrong, stale, or unfinished. None are b
 **Engineering**
 - **No storefront type gate.** `next.config.js` sets `typescript.ignoreBuildErrors: true` AND `eslint.ignoreDuringBuilds: true`, and there is no `typecheck` script — the storefront build does **not** gate on types or lint at all. `tsc --noEmit` shows React-19 false positives (@types/react duplication) in starter files, so it isn't a clean gate either. (The backend's `medusa build` **does** typecheck.) **Restoring a real storefront type gate is an open task.** — This corrects the earlier belief that "`pnpm build` is the storefront typecheck gate"; it is not.
 - Invalid/stale cart cookie → `retrieveCart` returns null → `notFound()` **hard 404** in both checkout and cart pages (cart not-found only says "Clear your cookies and try again"). No graceful recovery.
+- `resolveVariant`'s size fallback (`tamjams.ts:45`) does `parseInt` on Size option values, but seeded values are "Small/Medium/Large" → `NaN`; it only ever works via `metadata.size_oz` (always set by the seed). Dead-weight fallback, not a bug today.
+- ~~Back button didn't restore configurator state~~ — **fixed 2026-07-14**: `jam-configurator` used `router.replace`; now `router.push` (caught by the E2E suite's first run).
 - Migrations still run at boot inside the Render `startCommand` — could move to `preDeployCommand` now that the plan is Starter.
 
 **Launch-blocking (not wired yet)**

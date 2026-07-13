@@ -10,13 +10,16 @@ import {
 } from "@medusajs/medusa/core-flows";
 
 const SALES_CHANNEL_ID = "sc_01KXCSZGBHJ9HXPEHKQYBCCXG1";
-const CURRENCY_CODE = "usd";
+export const CURRENCY_CODE = "usd";
 const STOCK_LOCATION_NAME = "TamJams Warehouse";
 const DEFAULT_SHIPPING_PROFILE_NAME = "Default Shipping Profile";
 const FULFILLMENT_SET_NAME = "TamJams US Delivery";
 const SERVICE_ZONE_NAME = "United States";
-const SHIPPING_OPTION_NAME = "Standard Shipping";
-const MANUAL_FULFILLMENT_PROVIDER_ID = "manual_manual";
+export const SHIPPING_OPTION_NAME = "Standard Shipping";
+export const MANUAL_FULFILLMENT_PROVIDER_ID = "manual_manual";
+// Flat-rate shipping price in DECIMAL DOLLARS (Medusa v2 stores money as-is,
+// not in cents). Extracted verbatim from the inline literal — value unchanged.
+export const SHIPPING_RATE_USD = 5;
 
 /**
  * Idempotent seed that wires up fulfillment so the storefront checkout's
@@ -154,7 +157,7 @@ export default async function shipping_seed({
           description: "Ships in 2-3 business days.",
           code: "standard",
         },
-        prices: [{ currency_code: CURRENCY_CODE, amount: 5 }],
+        prices: [{ currency_code: CURRENCY_CODE, amount: SHIPPING_RATE_USD }],
         rules: [
           { attribute: "enabled_in_store", value: "true", operator: "eq" },
           { attribute: "is_return", value: "false", operator: "eq" },
