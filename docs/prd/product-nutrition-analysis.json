@@ -1,0 +1,142 @@
+{
+  "validation_date": "2026-03-15",
+  "analysis_method": "LobeHub Nutritional Specialist Skill",
+  "dietary_suitability": {
+    "all_flavors": {
+      "vegetarian": "✓ Yes - plant-based",
+      "vegan": "✓ Yes - no animal products",
+      "gluten_free": "✓ Yes - naturally gluten-free",
+      "kosher": "⚠ Check - cane sugar certification needed",
+      "halal": "⚠ Check - ingredient sourcing confirmation",
+      "dairy_free": "✓ Yes - no dairy",
+      "nut_free": "✓ Yes - no nuts",
+      "allergen_free": "✓ Yes - no common allergens"
+    }
+  },
+  "nutritional_summary": {
+    "all_flavors": {
+      "calories_per_serving": 35,
+      "carbs_per_serving_g": 9,
+      "sugar_per_serving_g": 8,
+      "added_sugar_per_serving_g": 8,
+      "added_sugar_daily_value_percent": "16%",
+      "fiber_per_serving_g": 0,
+      "protein_per_serving_g": 0,
+      "fat_per_serving_g": 0,
+      "calories_per_jar_12oz": 700,
+      "total_sugar_per_jar_g": 160,
+      "serving_size": "1 tbsp (18g)",
+      "servings_per_container": 20
+    }
+  },
+  "nutritional_assessment": {
+    "sugar_content": {
+      "level": "MODERATE-TO-HIGH",
+      "concern": "8g added sugars per serving = 16% daily value",
+      "context": "Typical for fruit preserves; natural fruit-based sugars",
+      "recommendation": "Market as natural fruit sugars; suggest portion control for sugar-sensitive diets"
+    },
+    "fiber_content": {
+      "level": "ZERO",
+      "concern": "No dietary fiber",
+      "context": "Typical for processed jams; fiber removed during cooking/processing",
+      "recommendation": "Position as 'spreadable fruit concentrate' rather than health food"
+    },
+    "macronutrient_profile": "Pure carbohydrate source (simple sugars from fruit + cane sugar)",
+    "dietary_use_cases": [
+      "Breakfast spread for toast/bagels",
+      "Yogurt or oatmeal topping",
+      "Baking ingredient",
+      "Dessert component",
+      "Gift/artisanal product"
+    ]
+  },
+  "marketing_recommendations": {
+    "key_selling_points": [
+      "100% real fruit - no artificial flavors or colors",
+      "Non-GMO, homemade quality",
+      "No preservatives or additives",
+      "Light spread: only 35 calories per serving",
+      "Naturally suitable for vegetarian, vegan, and gluten-free diets",
+      "Artisanal, small-batch appeal",
+      "Pure fruit + cane sugar only"
+    ],
+    "dietary_labels_to_display": [
+      "Vegetarian",
+      "Vegan-Friendly",
+      "Gluten-Free",
+      "Non-GMO Project Verified (if applicable)",
+      "No Artificial Additives"
+    ],
+    "flavor_specific_angles": {
+      "Apricot": "Golden apricots, warm sunny flavor - nostalgic breakfast appeal",
+      "Strawberry": "Bright berries, classic flavor - mass market appeal",
+      "Blueberry": "Deep antioxidant-rich berries - health-conscious positioning",
+      "Raspberry": "Tart and vibrant - premium, sophisticated angle",
+      "Apple": "Smooth, mellow sweetness - comfort food positioning",
+      "Quince": "Rare, aromatic with cinnamon spice - specialty/luxury angle",
+      "Sour Cherry": "Tart complexity - gourmet/adventurous consumer appeal"
+    },
+    "audience_segments": {
+      "health_conscious": "Light spread option, 35 cal/serving, real fruit",
+      "artisanal_food_lovers": "Small-batch, homemade quality, no additives",
+      "dietary_restricted": "Vegetarian/vegan/gluten-free friendly",
+      "breakfast_enthusiasts": "Perfect toast spread, yogurt topping",
+      "gift_givers": "Artisanal packaging, heritage story (Tam's background)"
+    }
+  },
+  "warnings_and_notes": [
+    {
+      "type": "Sugar Content",
+      "message": "All flavors contain 8g added sugars per serving (16% DV). Disclose clearly; market as natural fruit sugars; suggest serving size.",
+      "impact": "IMPORTANT for transparent labeling and trust"
+    },
+    {
+      "type": "Fiber Content",
+      "message": "No dietary fiber (typical for processed jams). Do not position as health/wellness product.",
+      "impact": "MODERATE - set correct customer expectations"
+    },
+    {
+      "type": "Certification Recommendations",
+      "message": "Consider certifications: Non-GMO Project Verified, Organic (if applicable), Vegan (explicit validation), Kosher/Halal (if targeting those markets)",
+      "impact": "MARKETING - could expand addressable market"
+    }
+  ],
+  "certification_checklist": [
+    {
+      "certification": "Vegetarian",
+      "status": "✓ Eligible",
+      "requirement": "No animal products - confirm with certifying body"
+    },
+    {
+      "certification": "Vegan",
+      "status": "✓ Eligible",
+      "requirement": "No animal products or byproducts - confirm cane sugar sourcing"
+    },
+    {
+      "certification": "Gluten-Free",
+      "status": "✓ Eligible",
+      "requirement": "No gluten-containing ingredients - confirm cross-contamination controls"
+    },
+    {
+      "certification": "Non-GMO Project Verified",
+      "status": "✓ Eligible",
+      "requirement": "Verify fruit and cane sugar sources are non-GMO"
+    },
+    {
+      "certification": "Organic",
+      "status": "? Unknown",
+      "requirement": "Only if all ingredients (fruit, sugar, lemon juice) are certified organic"
+    },
+    {
+      "certification": "Kosher",
+      "status": "⚠ Possible",
+      "requirement": "Cane sugar and other ingredients must be certified; processing equipment verified"
+    },
+    {
+      "certification": "Halal",
+      "status": "⚠ Possible",
+      "requirement": "Ingredient sourcing and processing must meet Halal standards"
+    }
+  ]
+}

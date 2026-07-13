@@ -1,0 +1,292 @@
+{
+  "products": [
+    {
+      "flavor": "Apricot",
+      "title": "Apricot Jam",
+      "handle": "apricot-jam",
+      "subtitle": "Golden apricot jam with warm, sunny flavor",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nOur Apricot Jam captures the essence of golden, sun-ripened apricots in every spoonful. Made with 100% real fruit and pure cane sugar—no artificial flavors, no preservatives, no additives—this is jam as nature intended it. The warm, nostalgic sweetness brings back memories of homemade breakfasts and grandmother's kitchen.\n\nAt just 35 calories per serving, Apricot Jam is the perfect light spread for your morning toast, a natural topping for yogurt and oatmeal, or a sophisticated addition to your favorite baking recipes. The natural fruit sugars provide a clean sweetness without any chemical aftertaste.\n\nPerfect for vegetarian, vegan, and gluten-free diets. Non-GMO, small-batch made. Refrigerate after opening.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Apricots, Cane sugar, Lemon juice, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    },
+    {
+      "flavor": "Strawberry",
+      "title": "Strawberry Jam",
+      "handle": "strawberry-jam",
+      "subtitle": "Bright strawberry jam with fresh, sweet taste",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nStrawberry Jam is a timeless classic—and ours is made the way it should be. Bright, ripe strawberries combined with pure cane sugar create that perfect balance of sweetness and natural fruit flavor. 100% real strawberries, no artificial ingredients, no shortcuts.\n\nThis is the jam that built generations of breakfast traditions. Spread it thick on warm toast, swirl it into Greek yogurt for a protein-rich breakfast, or use it as the heart of a homemade pastry. With just 35 calories per serving, you get pure strawberry flavor without the guilt.\n\nVegan, vegetarian, and gluten-free by nature. Non-GMO, small-batch crafted, made with love in our kitchen. The kind of strawberry jam your grandmother would make—if she had Tam's passion for perfection.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Strawberries, Cane sugar, Lemon juice, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    },
+    {
+      "flavor": "Blueberry",
+      "title": "Blueberry Jam",
+      "handle": "blueberry-jam",
+      "subtitle": "Deep blueberry jam with rich, fruity notes",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nBlueberries are nature's candy—and our Blueberry Jam lets them shine. Made exclusively from ripe, deep-blue blueberries and pure cane sugar, this jam delivers the full antioxidant-rich taste of nature's superfruit in a convenient, delicious spread.\n\nEnjoy the deep, complex flavor that only real fruit can provide. At 35 calories per serving, Blueberry Jam is your guilt-free way to add real fruit to your diet. Perfect for health-conscious breakfast enthusiasts—swirl into Greek yogurt for extra protein, layer into chia pudding, or top your morning toast for a nutrient-rich start.\n\nNo artificial flavors, no added chemicals, no compromises. 100% real blueberries, naturally vegan and gluten-free. Small-batch made with the care that only a jam master like Tam can bring. Every jar is a taste of pure, natural goodness.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Blueberries, Cane sugar, Lemon juice, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    },
+    {
+      "flavor": "Raspberry",
+      "title": "Raspberry Jam",
+      "handle": "raspberry-jam",
+      "subtitle": "Tart raspberry jam with vibrant, tangy flavor",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nFor the sophisticated palate, Tam's Raspberry Jam is a revelation. Tart, vibrant, and bursting with the complex flavor that only real raspberries can deliver, this jam elevates everything it touches. The tartness cuts through sweetness with elegance—no cloying aftertaste, just pure raspberry intensity.\n\nThis is a premium preserve for those who appreciate nuance. Use it in French pastries, swirl into dark chocolate ganache, or pair with artisanal cheese boards. At 35 calories per serving, it's light enough to enjoy generously, yet bold enough to make a statement on your favorite crackers or warm croissants.\n\n100% real raspberries, no shortcuts. Naturally vegan, vegetarian, and gluten-free. Small-batch crafted by Tam with the precision of an artisan who refuses to compromise. A jam for those who know the difference between ordinary and exceptional.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Raspberries, Cane sugar, Lemon juice, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    },
+    {
+      "flavor": "Apple",
+      "title": "Apple Jam",
+      "handle": "apple-jam",
+      "subtitle": "Classic apple jam with smooth, mellow sweetness",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nApple Jam is comfort in a jar. Smooth, mellow, and endlessly versatile, this classic flavor brings the warmth of homemade goodness to your table. Made from crisp, flavorful apples with just the right touch of sweetness, it's the jam that belongs in every kitchen.\n\nWhether you're spreading it on warm toast at breakfast, using it as a base for old-fashioned coffee cake, or swirling it into vanilla yogurt for an afternoon snack, Apple Jam delivers pure, familiar satisfaction. At just 35 calories per serving, it's the light, naturally sweet flavor your whole family will love.\n\n100% real apples, pure cane sugar, and nothing else. No artificial flavors, no preservatives, no added colors. Naturally suitable for vegan, vegetarian, and gluten-free diets. Small-batch made by Tam with the warmth and care that defines everything she creates. This is the taste of simple, honest, delicious homemade jam.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Apples, Cane sugar, Lemon juice, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    },
+    {
+      "flavor": "Quince",
+      "title": "Quince Jam",
+      "handle": "quince-jam",
+      "subtitle": "Aromatic quince jam with warm spiced notes",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nQuince Jam is a treasure—a rare, aromatic preserve that takes you on a culinary journey. Infused with warm cinnamon spice, this specialty jam captures the essence of Old World preserving traditions. Quince itself is increasingly rare to find, making this jam a true discovery for adventurous palates.\n\nThe natural floral notes of quince, balanced with the warmth of cinnamon, create a sophisticated flavor profile that's perfect for gourmet entertaining. Pair with aged cheeses on a charcuterie board, dollop onto roasted duck, or use as an elegant spread for afternoon tea. At 35 calories per serving, every spoonful delivers an extraordinary experience.\n\nThis is a luxury preserve for the connoisseur. 100% real quince, pure cane sugar, and aromatic cinnamon—a blend born from Tam's Armenian heritage and refined by her passion for excellence. No artificial ingredients, no shortcuts, only the finest craftsmanship. A jam that tells a story of tradition, culture, and the bold flavors that shaped a family's journey.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Quince, Cane sugar, Lemon juice, Cinnamon, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    },
+    {
+      "flavor": "Sour Cherry",
+      "title": "Sour Cherry Jam",
+      "handle": "sour-cherry-jam",
+      "subtitle": "Tart sour cherry jam with bright, complex flavor",
+      "description": "A Story of Sweet Beginnings.\n\nTam's Jams was born from the heart of Tamara, an Armenian immigrant who came to America dreaming of becoming a Hollywood fashion designer. Life had other plans — raising a large family came first — but her creativity never faded. She simply traded fabric and thread for fruit and flavor.\n\nYears later, her grandson, now a filmmaker, brought her to the red carpet of his blockbuster premiere — letting her live a piece of her dream. Inspired by her passion, he encouraged her to share her other love with the world.\n\nTam's Jams is a celebration of family, heritage, and the sweetness of second chances.\n\n—\n\nSour Cherry Jam is for the adventurous—those who seek the extraordinary. Bright, tart, and gloriously complex, this jam celebrates the bold character of sour cherries, nature's most sophisticated fruit. It's not timid. It doesn't apologize. It announces itself with every spoonful.\n\nThis is a chef's ingredient. Use it as a glaze for grilled meats, fold it into dark chocolate desserts, or layer it into sophisticated cocktails. On its own, it's a stunning accompaniment to artisanal crackers and premium cheeses. At 35 calories per serving, you get pure, unapologetic cherry intensity without excess.\n\n100% real sour cherries, pure cane sugar, crafted by hand. No artificial flavors, no shortcuts, no concessions to mass-market tastes. Naturally vegan, vegetarian, and gluten-free. This is a jam made for people who know what they want and refuse to settle for ordinary. A taste of boldness, heritage, and uncompromising quality.",
+      "highlights": ["Real Fruit", "Non-GMO", "Homemade", "No Additives"],
+      "ingredients": "Sour Cherry, Cane sugar, Lemon juice, and Water",
+      "netWeight": "12 oz | 340 g",
+      "storage": "Refrigerate after opening",
+      "nutrition": {
+        "servingSize": "1 tbsp (18g)",
+        "servingsPerContainer": 20,
+        "calories": 35,
+        "fat": {
+          "total": 0,
+          "saturated": 0,
+          "trans": 0
+        },
+        "cholesterol": 0,
+        "sodium": 0,
+        "carbohydrates": {
+          "total": 9,
+          "fiber": 0,
+          "sugars": {
+            "total": 8,
+            "added": 8
+          }
+        },
+        "protein": 0,
+        "vitamins": {
+          "vitaminD": "0%",
+          "calcium": "0%",
+          "iron": "0%",
+          "potassium": "0%"
+        }
+      }
+    }
+  ],
+  "variants": [
+    {
+      "title": "Small",
+      "sku": "SMALL",
+      "weight": "8 oz"
+    },
+    {
+      "title": "Medium",
+      "sku": "MEDIUM",
+      "weight": "12 oz"
+    },
+    {
+      "title": "Large",
+      "sku": "LARGE",
+      "weight": "18 oz"
+    }
+  ],
+  "metadata": {
+    "extractedDate": "2026-03-15",
+    "source": "docs/products/fwdtamsjamslabelsupdated/*.pdf",
+    "notes": "All flavors have identical nutrition facts per serving (18g serving size = 1 tbsp). Quince is the only flavor with added ingredient (Cinnamon). Description and story text identical for all flavors."
+  }
+}
