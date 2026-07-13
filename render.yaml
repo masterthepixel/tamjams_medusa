@@ -1,55 +1,55 @@
-# TamJams — Render Blueprint
-# Place at the REPO ROOT as `render.yaml`. Render reads it to provision the whole stack.
-# Stack: 1 Postgres + 1 Medusa Web Service + 1 Next.js storefront Web Service.
-# Redis/Key Value is intentionally omitted for launch (Medusa v2 falls back to an
-# in-memory event bus + workflow engine on a single instance). See the commented block
-# at the bottom to add it when you scale past one instance.
+# TamJams — Render Blueprint (Medusa backend only)
+# Place at the REPO ROOT as `render.yaml`. Render reads it to provision this service.
 #
-# ── Two-phase deploy (unavoidable) ────────────────────────────────────────────
-# Vars marked `sync: false` can't be known until first deploy:
-#   1. Deploy the blueprint → services get their *.onrender.com URLs.
-#   2. In Medusa Admin, create a publishable API key + note the URLs.
-#   3. Fill the `sync: false` vars in the Render dashboard → redeploy.
+# Architecture: storefront on Vercel, Postgres on Supabase, Medusa server here on
+# Render. This blueprint intentionally does NOT provision Postgres or a storefront
+# service on Render — those live elsewhere and provisioning them here would cost more.
+#
+# Cost: $0/month on the `free` plan below. Free web services spin down after ~15min
+# idle and kill background jobs — fine for early dev/prototyping. Bump `plan` to
+# `starter` ($7/mo) once you need it always-on (real checkout traffic, cron jobs).
+#
+# Redis/Key Value is intentionally omitted: Medusa v2 falls back to an in-memory
+# event bus + workflow engine on a single instance. Add Upstash (or Render Key Value)
+# later if you scale past one instance.
+#
+# ── Two-phase deploy ──────────────────────────────────────────────────────────
+# `sync: false` vars come from external services (Supabase, Stripe) or aren't known
+# until the storefront is deployed:
+#   1. Set DATABASE_URL to the Supabase Postgres connection string (session pooler).
+#   2. Deploy this blueprint → the service gets its *.onrender.com URL.
+#   3. Deploy the storefront to Vercel separately; note its URL.
+#   4. Fill STORE_CORS/AUTH_CORS (Vercel URL), ADMIN_CORS (this service's own URL),
+#      and STRIPE_API_KEY in the Render dashboard → redeploy.
 # ──────────────────────────────────────────────────────────────────────────────
 
-databases:
-  - name: tamjams-db
-    databaseName: tamjams
-    user: tamjams
-    plan: basic-256mb          # smallest paid tier; bump as needed
-    postgresMajorVersion: "16"
-    region: oregon             # keep all three resources in the SAME region
-
 services:
-  # ── Medusa backend (API + admin + background jobs in shared mode) ────────────
   - type: web
     name: tamjams-medusa
     runtime: node
     repo: https://github.com/masterthepixel/tamjams_medusa
-    plan: starter              # do NOT use free — it spins down and kills background jobs
+    plan: free                 # bump to `starter` ($7/mo) when you need always-on
     region: oregon
     branch: main
     rootDir: apps/medusa       # monorepo path (create-medusa-app layout)
     # Medusa v2 `build` emits a standalone app in .medusa/server that needs its own install.
-    # Adjust if your package.json scripts differ.
     buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build && cd .medusa/server && pnpm install
-    preDeployCommand: cd .medusa/server && pnpm medusa db:migrate
-    startCommand: cd .medusa/server && pnpm medusa start
+    # Free tier can't use preDeployCommand, so migrations run at boot (before start).
+    startCommand: cd .medusa/server && pnpm medusa db:migrate && pnpm medusa start
     healthCheckPath: /health
     autoDeploy: true
     envVars:
       - key: NODE_VERSION
-        value: "22"            # Medusa requires Node < 25; your machine has 25.x
+        value: "22"            # Medusa requires Node < 25
+      # Supabase Postgres connection string (session pooler) — not provisioned here.
       - key: DATABASE_URL
-        fromDatabase:
-          name: tamjams-db
-          property: connectionString
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: COOKIE_SECRET
         generateValue: true
-      # CORS: fill with the storefront URL (STORE/AUTH) and this service's own URL (ADMIN)
-      # after first deploy. Example value: https://tamjams-storefront.onrender.com
+      # CORS: fill with the Vercel storefront URL (STORE/AUTH) and this service's
+      # own onrender.com URL (ADMIN) after first deploy.
       - key: STORE_CORS
         sync: false
       - key: AUTH_CORS
@@ -59,51 +59,3 @@ services:
       # Stripe secret key (test key to start). Never commit this.
       - key: STRIPE_API_KEY
         sync: false
-      # - key: REDIS_URL          # uncomment when you add Key Value (see bottom)
-      #   fromService:
-      #     name: tamjams-redis
-      #     type: redis
-      #     property: connectionString
-
-  # ── Next.js storefront (SSR — must be a Web Service, not a Static Site) ───────
-  - type: web
-    name: tamjams-storefront
-    runtime: node
-    repo: https://github.com/masterthepixel/tamjams_medusa
-    plan: starter
-    region: oregon
-    branch: main
-    rootDir: apps/storefront
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
-    startCommand: pnpm start
-    healthCheckPath: /
-    autoDeploy: true
-    envVars:
-      - key: NODE_VERSION
-        value: "22"
-      # Point the storefront at the Medusa service. `property: host` yields the bare
-      # hostname (no scheme) — prefix https:// in the value you set, or fill via sync:false.
-      - key: MEDUSA_BACKEND_URL
-        fromService:
-          name: tamjams-medusa
-          type: web
-          property: host        # -> tamjams-medusa.onrender.com  (add https:// where consumed)
-      # Publishable key doesn't exist until Medusa is running/seeded — set after phase 2.
-      - key: NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-        sync: false
-      - key: NEXT_PUBLIC_BASE_URL
-        sync: false             # e.g. https://tamjams-storefront.onrender.com
-      - key: NEXT_PUBLIC_DEFAULT_REGION
-        value: us
-
-# ── OPTIONAL: add later, when one instance isn't enough ───────────────────────
-# The blueprint token for managed Redis / "Key Value" may be `redis` or `keyvalue`
-# depending on Render's current schema — verify in their docs before uncommenting.
-#
-# services:
-#   - type: redis
-#     name: tamjams-redis
-#     plan: starter
-#     region: oregon
-#     ipAllowList: []           # empty = internal-only access from your Render services
-#     maxmemoryPolicy: noeviction   # Medusa uses Redis for durable jobs — don't evict
