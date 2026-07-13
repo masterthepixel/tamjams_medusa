@@ -25,6 +25,7 @@ services:
   - type: web
     name: tamjams-medusa
     runtime: node
+    repo: https://github.com/masterthepixel/tamjams_medusa
     plan: starter              # do NOT use free — it spins down and kills background jobs
     region: oregon
     branch: main
@@ -68,6 +69,7 @@ services:
   - type: web
     name: tamjams-storefront
     runtime: node
+    repo: https://github.com/masterthepixel/tamjams_medusa
     plan: starter
     region: oregon
     branch: main
