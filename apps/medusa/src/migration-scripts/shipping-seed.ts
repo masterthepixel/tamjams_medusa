@@ -111,13 +111,16 @@ export default async function shipping_seed({
     filters: { id: stockLocationId },
   });
 
-  let fulfillmentSet = locationWithSets[0]?.fulfillment_sets?.find(
+  const existingSet = locationWithSets[0]?.fulfillment_sets?.find(
     (fs: any) => fs?.name === FULFILLMENT_SET_NAME
   );
 
-  if (!fulfillmentSet) {
+  let serviceZoneId: string;
+  if (existingSet) {
+    serviceZoneId = existingSet.service_zones[0].id;
+  } else {
     logger.info("Creating fulfillment set + US service zone...");
-    fulfillmentSet = await fulfillmentModuleService.createFulfillmentSets({
+    const createdSet = await fulfillmentModuleService.createFulfillmentSets({
       name: FULFILLMENT_SET_NAME,
       type: "shipping",
       service_zones: [
@@ -130,11 +133,10 @@ export default async function shipping_seed({
 
     await link.create({
       [Modules.STOCK_LOCATION]: { stock_location_id: stockLocationId },
-      [Modules.FULFILLMENT]: { fulfillment_set_id: fulfillmentSet.id },
+      [Modules.FULFILLMENT]: { fulfillment_set_id: createdSet.id },
     });
+    serviceZoneId = createdSet.service_zones[0].id;
   }
-
-  const serviceZoneId = fulfillmentSet.service_zones[0].id;
 
   // 6. Create the flat-rate shipping option. Amounts are decimal dollars
   //    (Medusa v2 stores money as-is, not in cents), matching the catalog seed.
