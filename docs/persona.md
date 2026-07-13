@@ -56,7 +56,9 @@ Backend Postgres = Supabase. Storefront = Vercel. Medusa/Admin = Render. Redis i
 
 ### Product model
 
-**One product** ("TamJams Jar", handle `tamjams-jar`) with **7 flavors × 3 sizes = 21 variants** — not one product per flavor (a deliberate decision owned by the `medusa-backend` agent).
+**Two product shapes coexist** (per the user's 2026-07-14 decision):
+1. The configurator product ("TamJams Jar", handle `tamjams-jar`): **7 flavors × 3 sizes = 21 variants**, SKUs `TJ-<FLAVOR>-<SIZE>` — drives `/shop/[config]`.
+2. **Seven standalone per-flavor products** (handles from `product-data.json`: `apricot-jam` … `sour-cherry-jam`), each with a Size option → 3 variants, SKUs `TJF-<FLAVOR>-<SIZE>` — surface on the starter `/store` and `/products/[handle]` routes. Owned by the `product-creator` agent.
 
 - Flavors (catalog order): APRICOT, STRAW(berry), BLUE(berry), RASP(berry), APPLE, QUINCE, SRCHERRY (sour cherry).
 - Sizes: SMALL 8oz/227g **$14.89**, MEDIUM 12oz/340g **$22.89**, LARGE 18oz/510g **$33.89** (qty 100 each). Prices stepped by volume; the Quince/Sour-Cherry "premium tier" was deliberately **not** invented — that's a real pricing call left to the user.
@@ -137,6 +139,7 @@ This repo was built by — and should continue to be extended through — a **si
 |---|---|---|
 | `medusa-backend` | sonnet (restricted tools) | `apps/medusa` config, region/sales-channel/publishable-key, Stripe provider, migrations. Owns the single-product-with-variants model decision. |
 | `catalog-seeder` | haiku (restricted) | Idempotent seeds, deterministic `TJ-<FLAVOR>-<SIZE>` SKUs, upsert by SKU/handle, summary table. |
+| `product-creator` | haiku (restricted) | Ongoing product creation/maintenance from `docs/prd/product-data.json` — standalone per-flavor products (`TJF-<FLAVOR>-<SIZE>` SKUs), new flavors, price/inventory changes, always via idempotent migration-scripts. |
 | `storefront-builder` | sonnet (inherit-all) | Home + `/shop/[config]` configurator, generateStaticParams/Metadata, URL-as-state, sticky buy bar, prices always from Medusa. |
 | `ui-components` | haiku (restricted) | Pure presentational React/Tailwind from specs; all states; a11y radiogroup required; no data/routing. |
 | `checkout-integrator` | sonnet (inherit-all) | Cart + Stripe (Elements only, never raw card data), order confirmation, email. "Trickiest, highest-risk." |
