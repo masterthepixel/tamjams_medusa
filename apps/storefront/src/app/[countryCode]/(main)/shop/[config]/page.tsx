@@ -12,6 +12,7 @@ import NutritionFacts, {
 } from "@modules/products/components/nutrition-facts"
 import JamConfigurator from "@modules/products/components/jam-configurator"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import RelatedProducts from "@modules/products/components/related-products"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
@@ -201,6 +202,10 @@ export default async function ShopConfigPage(props: Props) {
               </li>
             ))}
         </ul>
+      </div>
+
+      <div className="mt-24">
+        <RelatedProducts product={product} countryCode={countryCode} />
       </div>
     </div>
   )
