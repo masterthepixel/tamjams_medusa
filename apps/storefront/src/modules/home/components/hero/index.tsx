@@ -3,7 +3,7 @@ import { Button, Heading } from "@modules/common/components/ui"
 
 const Hero = () => {
   return (
-    <div className="relative h-[80vh] w-full overflow-hidden border-b border-ui-border-base bg-ui-bg-subtle">
+    <div className="relative h-screen w-full overflow-hidden border-b border-ui-border-base bg-ui-bg-subtle">
       <video
         autoPlay
         loop
