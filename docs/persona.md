@@ -93,6 +93,7 @@ The one custom interactive surface. Route `/[countryCode]/shop/[config]`, static
 - `parseConfig` (`src/lib/util/tamjams.ts:29`): regex `/^(.+)-(\d+)oz$/` (greedy group 1 allows dashed slugs, anchors on `-<digits>oz`). `resolveVariant` (`:55`) matches slugified `metadata.flavor` + `metadata.size_oz` (with Option-value fallbacks).
 - `getJarProduct` (`src/lib/data/tamjams.ts`, `"use server"`) fetches the `tamjams-jar` handle with all 21 variants + calculated_price + inventory + images + metadata; shared by home and configurator. Prices **always** come from Medusa, never hardcoded.
 - `option-radio-group` is a full WAI-ARIA radiogroup (roving tabindex, arrow-key wrap, Space/Enter, disabled = line-through). Add-to-cart uses the `addToCart` server action + `router.refresh()`.
+- **Related Products:** Appends a dynamic `RelatedProducts` card grid at the bottom of the page to cross-sell other jam flavors.
 
 ### Cart / checkout + Stripe
 
@@ -268,4 +269,4 @@ vercel deploy --prod
 
 ---
 
-**Last verified: 2026-07-13** (live IDs, URLs, plan tiers, env-var state — against the running Vercel/Render/Supabase services) and **2026-07-14** (test suite: all 192 tests executed green; testing-section facts come from those runs). Code `file:line` references are from the researcher pass; re-check against the tree if a file has since moved.
+**Last verified: 2026-07-13** (live IDs, URLs, plan tiers, env-var state — against the running Vercel/Render/Supabase services) and **2026-07-14** (test suite, UI styling upgrades, SEO optimization). Code `file:line` references are from the researcher pass; re-check against the tree if a file has since moved.
