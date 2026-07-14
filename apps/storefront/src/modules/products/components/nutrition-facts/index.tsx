@@ -40,7 +40,7 @@ const NutritionFacts: React.FC<{ nutrition: NutritionData }> = ({
 }) => {
   return (
     <div
-      className="max-w-xs rounded-large border border-ui-border-base p-4"
+      className="w-full rounded-large border border-ui-border-base p-4"
       data-testid="nutrition-facts"
     >
       <h3 className="mb-1 text-lg font-bold">Nutrition Facts</h3>
