@@ -62,6 +62,8 @@ const JamConfigurator: React.FC<JamConfiguratorProps> = ({
     product.thumbnail ??
     undefined
 
+  const videoUrl = product.metadata?.product_video as string | undefined
+
   const flavorName =
     flavors.find((f) => f.slug === flavorSlug)?.name ?? product.title
 
@@ -107,16 +109,27 @@ const JamConfigurator: React.FC<JamConfiguratorProps> = ({
     <div className="flex flex-col gap-y-8 small:flex-row small:gap-x-12">
       <div className="small:w-1/2">
         <div
-          className={clx("transition-opacity duration-200", {
+          className={clx("transition-opacity duration-200 relative aspect-[29/34] w-full overflow-hidden bg-ui-bg-subtle rounded-rounded", {
             "opacity-60": isPending,
           })}
         >
-          <ProductImage
-            src={image}
-            alt={`${flavorName} jam`}
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority
-          />
+          {videoUrl ? (
+            <video
+              src={videoUrl}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <ProductImage
+              src={image}
+              alt={`${flavorName} jam`}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          )}
         </div>
       </div>
 

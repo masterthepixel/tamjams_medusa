@@ -4,12 +4,25 @@ import Image from "next/image"
 
 type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
+  video?: string
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = ({ images, video }: ImageGalleryProps) => {
   return (
     <div className="flex items-start relative">
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
+        {video && (
+          <Container className="relative aspect-[29/34] w-full overflow-hidden bg-ui-bg-subtle">
+            <video
+              src={video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover rounded-rounded"
+            />
+          </Container>
+        )}
         {images.map((image, index) => {
           return (
             <Container
