@@ -75,6 +75,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: {
+      canonical: `${getBaseURL()}/${countryCode}/products/${parsed.flavorSlug}`,
+    },
     openGraph: {
       title,
       description,
