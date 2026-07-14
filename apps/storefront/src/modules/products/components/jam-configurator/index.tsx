@@ -184,6 +184,7 @@ const JamConfigurator: React.FC<JamConfiguratorProps> = ({
         isAdding={isAdding}
         onAddToCart={handleAddToCart}
         variant={selectedVariant}
+        thumbnail={image}
       />
     </div>
   )
