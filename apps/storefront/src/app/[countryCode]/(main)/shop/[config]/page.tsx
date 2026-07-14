@@ -149,29 +149,29 @@ export default async function ShopConfigPage(props: Props) {
           <div className="flex flex-col gap-4 whitespace-pre-line text-ui-fg-subtle">
             {description}
           </div>
-          <dl className="mt-8 grid grid-cols-1 gap-4 small:grid-cols-2">
+          <dl className="mt-10 grid grid-cols-1 gap-4 small:grid-cols-2">
             {ingredients && (
-              <div>
-                <dt className="text-sm font-semibold text-ui-fg-base">
+              <div className="flex flex-col rounded-2xl border border-ui-border-base bg-ui-bg-subtle p-5 shadow-sm transition-transform hover:-translate-y-1 hover:shadow-md">
+                <dt className="mb-2 text-xs font-bold uppercase tracking-wider text-ui-fg-base">
                   Ingredients
                 </dt>
-                <dd className="text-sm text-ui-fg-subtle">{ingredients}</dd>
+                <dd className="text-sm leading-relaxed text-ui-fg-subtle">{ingredients}</dd>
               </div>
             )}
             {netWeight && (
-              <div>
-                <dt className="text-sm font-semibold text-ui-fg-base">
+              <div className="flex flex-col rounded-2xl border border-ui-border-base bg-ui-bg-subtle p-5 shadow-sm transition-transform hover:-translate-y-1 hover:shadow-md">
+                <dt className="mb-2 text-xs font-bold uppercase tracking-wider text-ui-fg-base">
                   Net weight
                 </dt>
-                <dd className="text-sm text-ui-fg-subtle">{netWeight}</dd>
+                <dd className="text-sm leading-relaxed text-ui-fg-subtle">{netWeight}</dd>
               </div>
             )}
             {storage && (
-              <div>
-                <dt className="text-sm font-semibold text-ui-fg-base">
+              <div className="flex flex-col rounded-2xl border border-ui-border-base bg-ui-bg-subtle p-5 shadow-sm transition-transform hover:-translate-y-1 hover:shadow-md">
+                <dt className="mb-2 text-xs font-bold uppercase tracking-wider text-ui-fg-base">
                   Storage
                 </dt>
-                <dd className="text-sm text-ui-fg-subtle">{storage}</dd>
+                <dd className="text-sm leading-relaxed text-ui-fg-subtle">{storage}</dd>
               </div>
             )}
           </dl>
